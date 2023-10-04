@@ -1,10 +1,12 @@
 import { useState } from "react"
 import avatar from "../public/avatar.png?url"
 import { motion } from 'framer-motion'
-
+import { useMediaQuery } from "../util/useMediaQuery"
 
 export default function Nav(){
     const [toggled, setToggled] = useState(false)
+    const matches = useMediaQuery("(min-width: 128px)")
+    console.log(matches)
     return(
         <nav className="relative mx-8 mb-24 flex justify-between items-center pt-12 pb-6 font-medium md:mx-16 lg:mx-32">
             <svg
