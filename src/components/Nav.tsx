@@ -50,7 +50,7 @@ export default function Nav(){
                 <span className="block h-0.5 w-4 bg-black"></span>
             </div>
             )}
-            {toggled && matches && (
+            {toggled && !matches && (
             <div className="fixed flex bg-white bottom-0 left-0 w-full h-screen items-center justify-center">
                 <div className="flex flex-col gap-24 text-large">
                 <a href="/">Home</a>
