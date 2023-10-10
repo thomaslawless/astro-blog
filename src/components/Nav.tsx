@@ -73,11 +73,15 @@ export default function Nav(){
                 animate={{opacity: 1, x: 0}}
                 initial={{opacity: 0, x: 25}}
                 className="fixed flex bg-white bottom-0 left-0 w-full h-screen items-center justify-center">
-                <div className="flex flex-col gap-24 text-large">
-                <a href="/">Home</a>
-                <a href="/services">Services</a>
-                <a href="/contact">Contact</a>
-                </div>
+                <motion.div variants={navMotion}
+                animate="visible"
+                initial="hidden"
+                className="flex flex-col gap-24 text-large">
+
+                <motion.a variants={itemMotion} href="/">Home</motion.a>
+                <motion.a variants={itemMotion} href="/services">Services</motion.a>
+                <motion.a variants={itemMotion} href="/contact">Contact</motion.a>
+                </motion.div>
             </motion.div>
             )}
         </nav>
