@@ -4,21 +4,28 @@ import portrait from "../../public/main-portrait.jpg?url"
 ---
 
 
-<div class="relative mx-12 flex flex-col items-center justify-center">
+<div class="relative mx-12 flex flex-col items-center justify-center xl:flex-row xl:gap-36">
+    <div class="w-full xl:w-1/2">
+    
     <h1 class="text-x1"> Enter Hua's Doodle-Dazzled <span class="font-bold"> Digital Universe! </span>
     </h1>
 
     <div class="relative">
-
-        <svg class="absolute h-full w-full overflow-visible" width="540" height="255" viewBox="0 0 540 255" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M538 253.5V167H2L2 2" stroke="url(#paint0_linear_6_33)" stroke-width="3" stroke-linecap="round"/>
-            <defs>
-            <linearGradient id="paint0_linear_6_33" x1="2.00009" y1="50.9998" x2="589" y2="275.5" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#DC3A2B"/>
-            <stop offset="1" stop-color="#E18510"/>
-            </linearGradient>
-            </defs>
-            </svg>
+        <svg class="absolute h-full w-full overflow-visible">
+        <defs>
+          <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style={{ stopColor: "#DC3A2B", stopOpacity: 1 }}
+            ></stop>
+            <stop offset="100%" style={{ stopColor: "#E18510", stopOpacity: 1 }}
+            ></stop>
+          </linearGradient>
+        </defs>
+        <path
+          id="border-path"
+          fill="none"
+          stroke="url(#gradient)"
+          stroke-width="4"></path>
+      </svg>
             
         <p id="anim-p" class="p-6 text-lg"> 
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce auctor turpis vitae libero semper, in luctus arcu laoreet. Ut quam velit, tempus ut orci vitae, mollis tempus leo. Ut laoreet ex vel lobortis porta
@@ -30,19 +37,20 @@ import portrait from "../../public/main-portrait.jpg?url"
             Sed sed mi lorem. Suspendisse lacus diam, feugiat quis metus a, hendrerit maximus mi. Suspendisse orci sem, aliquet ac erat vel, laoreet rutrum ligula.
         </p>
 </div>
-<div class="flex justify-center pt-12 text-center">
+<div class="flex justify-center pt-12 text-center mb-12 xl: gap-16">
     <div class="w-32">
         <h2> Art Posts </h2>
-        <p class="text-xl font-bold"> 85 </p>
+        <p id="art-counter" class="text-xl font-bold"> 85 </p>
     </div>
     <div class="w-32">
         <h2> Youtube </h2>
-        <p class="text-xl font-bold"> 1.2 mil </p>
+        <p id="youtube-counter" class="text-xl font-bold"> 1.2 mil </p>
     </div>
     <div class="w-32">
         <h2> Reviews </h2>
-        <p class="text-xl font-bold"> 50 </p>
+        <p id="reviews-counter" class="text-xl font-bold"> 50 </p>
     </div>
+</div>
 </div>
 <div class="relative">
     <img class="h-full" src={portrait} alt="portrait" />
@@ -52,4 +60,55 @@ import portrait from "../../public/main-portrait.jpg?url"
 </div>
 </div>
 
-<div class="mt-12 h-6 w-full bg-black"> </div>
+<div class="mt-12 h-4 w-full bg-black"> </div>
+
+<style>
+    #border-path {
+        animation: draw 1s forwards 1s ease-out
+    }
+    @keyframes draw {
+        to {
+            stroke-dashoffset: 0;
+        }
+        
+    }
+</style>
+
+<script>
+    function updatePath(){
+        const textMain = document.querySelector('#anim-p') as HTMLElement
+        const path = document.querySelector('#border-path') as SVGPathElement
+
+        if (textMain && path){
+            path.setAttribute("d", `M0, 0 V${textMain.offsetHeight} H${textMain.offsetWidth} v${textMain.offsetHeight / 2}`)
+        }
+
+        const pathLength = path.getTotalLength()
+        path.style.strokeDasharray = pathLength.toString()
+        path.style.strokeDashoffset = pathLength.toString()
+    }
+
+    function incrementCounter(
+        selector: string,
+        current: number,
+        target: number,
+        duration: number,
+        letter: string = ""
+        ){
+            let counter = document.getElementById(selector)
+            let stepTime = Math.abs(Math.floor(duration / target))
+            if (current < target && counter){
+                current++
+                counter.innerText = current.toString() + letter
+                setTimeout(() => incrementCounter(selector, current, target, duration, letter), stepTime
+                )
+            }
+    }
+//increment
+    incrementCounter("art-counter", 0, 85,2000)
+    incrementCounter("youtube-counter", 0, 328,2000, "k")
+    incrementCounter("reviews-counter", 0, 250,2000)
+
+    window.addEventListener("DOMContentLoaded", updatePath)
+    window.addEventListener("resize", updatePath)
+</script>
